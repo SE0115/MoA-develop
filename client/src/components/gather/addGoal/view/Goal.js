@@ -248,6 +248,7 @@ function Goal() {
                   value={
                     inputs.amountPerCycle === 0 ? "" : inputs.amountPerCycle
                   }
+                  onWheel={(e) => e.target.blur()}
                 />
               </InputEl>
             </>
@@ -262,6 +263,7 @@ function Goal() {
             value={inputs.goalAmount === 0 ? "" : inputs.goalAmount}
             onChange={onChange}
             name="goalAmount"
+            onWheel={(e) => e.target.blur()}
           />
           <div className="Notice">
             최소 <span className="Empasis l_space">10 만원</span>부터 모을 수

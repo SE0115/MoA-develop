@@ -58,6 +58,7 @@ function CustomInput({
         disabled={disabled}
         value={value}
         onChange={onChange}
+        onWheel={type === "number" ? (e) => e.target.blur() : () => {}}
       />
       {unit ? <span className="unit">{unit}</span> : <></>}
       {checkable ? (

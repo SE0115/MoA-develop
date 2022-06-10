@@ -170,6 +170,7 @@ function SignUp() {
                   focus1.current.focus();
                 }
               }}
+              onWheel={(e) => e.target.blur()}
             />
             <span>-</span>
             <input
@@ -181,6 +182,7 @@ function SignUp() {
               placeholder=""
               onChange={onChange}
               ref={focus1}
+              onWheel={(e) => e.target.blur()}
             />
           </div>
           <div className="notice">
@@ -203,6 +205,7 @@ function SignUp() {
                   focus2.current.focus();
                 }
               }}
+              onWheel={(e) => e.target.blur()}
             />
             <span>-</span>
             <input
@@ -212,6 +215,7 @@ function SignUp() {
               placeholder="군번 8자리를 입력해주세요"
               onChange={onChange}
               ref={focus2}
+              onWheel={(e) => e.target.blur()}
             />
           </div>
         </div>
