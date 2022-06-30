@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { UserData } from "store/User";
 import styled from "styled-components";
 import { v1 as uuid } from "uuid";
+import { useSelector } from "react-redux";
+
 const navList = [
   { name: "홈", link: "/home", redirectLink: "/home", srcName: "home" },
   {
@@ -26,14 +27,15 @@ const navList = [
 ];
 function NavBar() {
   const { pathname } = useLocation();
-  const { userData } = useContext(UserData);
+  const userID = useSelector((state) => state.user.id);
+
   return (
     <NavBarBox>
       {navList.map((item, index) => {
         return (
           <NavLink
             key={uuid()}
-            to={userData.id ? item.link : item.redirectLink}
+            to={userID ? item.link : item.redirectLink}
             className="navItem"
             name={item.srcName}
           >

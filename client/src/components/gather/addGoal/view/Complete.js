@@ -4,8 +4,11 @@ import { styleTitle, styleSubTitle } from "style/common";
 import CustomBtn from "../CustomBtn";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
-import { GatherList } from "store/GatherListContext";
+// import { GatherList } from "store/GatherListContext";
 import { UserAccount } from "store/UserAccount";
+
+import { useDispatch } from "react-redux";
+import { addGather } from "reducer/gatherState";
 
 const styleText = css`
   ${styleSubTitle}
@@ -83,10 +86,11 @@ const InfoEl = styled.div`
 `;
 
 function Complete() {
+  const dispatch = useDispatch();
   const { state } = useLocation();
   const { props, name } = state;
 
-  const { setGatherList } = useContext(GatherList);
+  // const { setGatherList } = useContext(GatherList);
   const { inout, interlock } = useContext(UserAccount).userAccount;
   return (
     <Container>
@@ -182,7 +186,8 @@ function Complete() {
 
       <CustomBtn
         addFunc={() => {
-          setGatherList((prev) => [...prev, props]);
+          // setGatherList((prev) => [...prev, props]); // Todo: 삭제
+          dispatch(addGather(props));
         }}
         path={"/key"}
         data={{

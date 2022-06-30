@@ -7,9 +7,11 @@ import NavBar from "components/common/NavBar";
 import StateGather from "components/gather/detail/StateGather";
 import { ReactSortable } from "react-sortablejs";
 import moment from "moment";
-import { GatherList } from "store/GatherListContext";
+// import { GatherList } from "store/GatherListContext";
 import { UserData } from "store/User";
 import { Header } from "components/common/Header";
+
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -91,9 +93,10 @@ const EditBtn = styled.button`
 
 function Gather() {
   const { userData } = useContext(UserData);
-  const { gatherList } = useContext(GatherList) || [];
-  let inProgressList = [];
-  let completedList = [];
+  // const { gatherList } = useContext(GatherList) || [];
+  const gatherList = useSelector((state) => state.gather.gatherList);
+  const inProgressList = [];
+  const completedList = [];
   // 모으기 진행 상태 분류
   gatherList.map((x) => {
     if (x.savingMode === "비상금") {

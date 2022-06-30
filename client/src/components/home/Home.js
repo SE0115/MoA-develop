@@ -13,6 +13,7 @@ import { GatherList } from "store/GatherListContext";
 import { AllCompete } from "store/CompeteAll";
 import { groupBy } from "components/common/utils";
 import createCardList from "components/compete/function/FilterList";
+
 const gatherCategorys = [
   {
     id: 1,

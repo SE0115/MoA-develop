@@ -5,6 +5,9 @@ import CustomBtn from "components/gather/addGoal/CustomBtn";
 import { useLocation } from "react-router-dom";
 import { GatherList } from "store/GatherListContext";
 
+import { useDispatch } from "react-redux";
+import { deleteGather } from "reducer/gatherState";
+
 const styleText = css`
   ${styleSubTitle}
   font-family: "Pretendard-Regular";
@@ -77,6 +80,7 @@ const InfoEl = styled.div`
 `;
 
 function TerminationComplete() {
+  const dispatch = useDispatch();
   const { state: props } = useLocation();
   const { setGatherList } = useContext(GatherList);
   return (
@@ -133,9 +137,10 @@ function TerminationComplete() {
         active={true}
         path="/gather"
         addFunc={() => {
-          setGatherList((prevList) =>
-            prevList.filter((x) => x.goalName !== props.goalName)
-          );
+          // setGatherList((prevList) =>
+          //   prevList.filter((x) => x.goalName !== props.goalName)
+          // ); // Todo: 삭제
+          dispatch(deleteGather(props));
         }}
       >
         확인

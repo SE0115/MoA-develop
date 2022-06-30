@@ -13,7 +13,7 @@ function AddMoaSavingSuccess() {
   const { state: stateData } = useLocation();
   const { updateUserData } = useContext(UserData);
   const { userAccount, setUserAccount } = useContext(UserAccount);
-  console.log(stateData);
+
   return (
     <Container>
       <ScrollBox paddingValue={"80px 0 114px "}>

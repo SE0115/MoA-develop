@@ -2,6 +2,7 @@ import "./App.css";
 import styled from "styled-components";
 import AllRoutes from "./route/Routes";
 import Store from "store/Store";
+
 const MobileBox = styled.div`
   max-width: 500px;
   min-width: 280px;

@@ -14,6 +14,9 @@ import { gatherFormat } from "components/common/dummyData";
 import { GatherList } from "store/GatherListContext";
 import { UserAccount } from "store/UserAccount";
 
+import { useSelector, useDispatch } from "react-redux";
+import { logIn } from "../../reducer/userState";
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -112,6 +115,7 @@ const Content = styled.div`
   }
 `;
 function SignIn() {
+  const dispatch = useDispatch();
   const [isSuccess, setIsSuccess] = useState(true);
   const [login, setLogin] = useState({
     serviceNumber1: "",
@@ -129,8 +133,10 @@ function SignIn() {
   const history = useNavigate();
   const checkLogin = (login) => {
     if (
-      login.serviceNumber1 + login.serviceNumber2 === "2171264703" &&
-      login.password === "12345asdfg"
+      // login.serviceNumber1 + login.serviceNumber2 === "2171264703" &&
+      // login.password === "12345asdfg"
+      login.serviceNumber1 + login.serviceNumber2 === "1111111111" &&
+      login.password === "11111qqqqq"
     )
       return true;
     else return false;
@@ -139,9 +145,9 @@ function SignIn() {
   const { login: funcLogin, userData, updateUserData } = useContext(UserData);
   const { setGatherList } = useContext(GatherList);
   const { userAccount } = useContext(UserAccount);
-
+  const user = useSelector((state) => state.user);
   useEffect(() => {
-    if (userData.id !== "") {
+    if (user.id) {
       history("/home");
     }
   }, []);
@@ -209,6 +215,9 @@ function SignIn() {
           path={checkLogin(login) ? "/home" : ""}
           addFunc={() => {
             if (checkLogin(login)) {
+              dispatch(
+                logIn([login.serviceNumber1, login.serviceNumber2].join("-"))
+              );
               funcLogin({
                 id: [login.serviceNumber1, login.serviceNumber2].join("-"),
                 name: "박영찬",
