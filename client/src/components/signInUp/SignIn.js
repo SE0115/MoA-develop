@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import {
   styleTitle,
@@ -9,13 +9,9 @@ import {
 import CustomBtn from "components/gather/addGoal/CustomBtn";
 import CustomInput from "components/common/CustomInput";
 import { useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
-import { gatherFormat } from "components/common/dummyData";
-import { GatherList } from "store/GatherListContext";
-import { UserAccount } from "store/UserAccount";
-
 import { useSelector, useDispatch } from "react-redux";
-import { logIn } from "../../reducer/userState";
+import { logIn, setUser } from "../../reducer/userState";
+import userDB from "mockData/userDB";
 
 const Container = styled.div`
   width: 100%;
@@ -132,19 +128,12 @@ function SignIn() {
   const inputFocus = useRef();
   const history = useNavigate();
   const checkLogin = (login) => {
-    if (
-      // login.serviceNumber1 + login.serviceNumber2 === "2171264703" &&
-      // login.password === "12345asdfg"
-      login.serviceNumber1 + login.serviceNumber2 === "1111111111" &&
-      login.password === "11111qqqqq"
-    )
-      return true;
+    const id = [login.serviceNumber1, login.serviceNumber2].join("-");
+    const userIndex = userDB.findIndex((user) => user.id === id);
+    if (userDB[userIndex]?.pw === login.password) return true;
     else return false;
   };
 
-  const { login: funcLogin, userData, updateUserData } = useContext(UserData);
-  const { setGatherList } = useContext(GatherList);
-  const { userAccount } = useContext(UserAccount);
   const user = useSelector((state) => state.user);
   useEffect(() => {
     if (user.id) {
@@ -218,22 +207,18 @@ function SignIn() {
               dispatch(
                 logIn([login.serviceNumber1, login.serviceNumber2].join("-"))
               );
-              funcLogin({
-                id: [login.serviceNumber1, login.serviceNumber2].join("-"),
-                name: "박영찬",
-                join_date: "2021-08-01",
-                unit: "11사단 화랑부대",
-                phone: "01012345678",
-                key: 45,
-              });
-              userAccount.install.map((x) =>
-                setGatherList((prev) => [...prev, gatherFormat(x)])
+              dispatch(
+                setUser([login.serviceNumber1, login.serviceNumber2].join("-"))
               );
-              updateUserData({
-                userAccountList: userAccount.inout,
-                userSavingList: userAccount.install,
-                userInterlock: userAccount.interlock,
-              });
+              // Todo: 계좌 정보 연결
+              // userAccount.install.map((x) =>
+              //   setGatherList((prev) => [...prev, gatherFormat(x)])
+              // );
+              // updateUserData({
+              //   userAccountList: userAccount.inout,
+              //   userSavingList: userAccount.install,
+              //   userInterlock: userAccount.interlock,
+              // });
             } else {
               setIsSuccess(false);
             }

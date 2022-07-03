@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import StyledLink from "components/common/StyledLink";
 import kFormatter from "../compete/function/kFormatter";
-import { UserData } from "store/User";
-import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 
 //Header-상단공간
 const StyledHeader = styled.div`
@@ -74,14 +73,12 @@ const Bell = ({ alarm }) => (
 );
 
 function Header({ $title }) {
-  const User = useContext(UserData);
-  const userData = User.userData;
-
+  const userData = useSelector((state) => state.user);
   return (
     <StyledHeader $title={$title}>
       {$title && <img src={require("assets/compete/moa.svg").default} />}
       <div className="content">
-        <LinkedKey count={kFormatter(userData.key)}></LinkedKey>
+        <LinkedKey count={kFormatter(userData.info.key)}></LinkedKey>
         <Bell alarm={userData.id !== ""}></Bell>
       </div>
     </StyledHeader>

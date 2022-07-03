@@ -1,25 +1,23 @@
 import Container from "components/common/Container";
 import NavBar from "components/common/NavBar";
 import ScrollBox from "components/common/ScrollBox";
-import React, { useContext } from "react";
 import { Header } from "components/common/Header";
 import ProfileCard from "../comp/ProfileCard";
 import LinkButton from "../comp/NavButton";
-import { UserData } from "store/User";
+import { useSelector } from "react-redux";
 
 function Profile() {
-  const User = useContext(UserData);
-  const userData = User.userData;
+  const userData = useSelector((state) => state.user);
 
   return (
     <Container>
       <Header $title={false}></Header>
       <ScrollBox>
         <ProfileCard
-          profile={userData.profilethumb}
-          unit={userData.unit}
-          name={userData.name}
-          join={userData.join_date}
+          profile={userData.info.profilethumb}
+          unit={userData.info.unit}
+          name={userData.info.name}
+          join={userData.info.join_date}
         ></ProfileCard>
         <LinkButton
           title={"내 정보 수정"}
