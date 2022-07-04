@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { UserData } from "store/User";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 function EditTitle({ startTitle, newTitle, setNewTitle, setIsInputChange }) {
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user.info);
+
   return (
     <EditTitleStyle>
       <div className="title">
