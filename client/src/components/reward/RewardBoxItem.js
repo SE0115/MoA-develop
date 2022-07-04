@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
 import styled from "styled-components";
 import { css } from "styled-components";
 import { v1 as uuid } from "uuid";
 function RewardBoxItem({ setBuyBoxItem, boxItem, setBuyClick }) {
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user);
   const history = useNavigate();
+
   return (
     <BoxCard
       onClick={() => {

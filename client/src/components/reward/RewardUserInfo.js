@@ -1,13 +1,11 @@
-import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
-import { UserInventoryData } from "store/UserInventory";
 import styled from "styled-components";
 
 function RewardUserInfo() {
   const history = useNavigate();
-  const { userData } = useContext(UserData);
-  const { userBoxList, userRewardList } = useContext(UserInventoryData);
+  const userData = useSelector((state) => state.user);
+  const { boxList: userBoxList, rewardList: userRewardList } = userData.info;
 
   return (
     <UserInfo>
@@ -15,7 +13,7 @@ function RewardUserInfo() {
         <div className="header">
           <img src={require("assets/ic_key_big.svg").default} alt="" />
           {!userData.id && <span>{"0"}</span>}
-          {userData.id && <span>{userData?.key}</span>}
+          {userData.id && <span>{userData?.info.key}</span>}
         </div>
         <div className="infoTitle">내 열쇠 개수</div>
       </div>

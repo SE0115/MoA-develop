@@ -1,29 +1,25 @@
 import SubmitButton from "components/common/SubmitButton";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
-import { UserInventoryData } from "store/UserInventory";
 import { styleModal, styleModalBackground } from "style/common";
 import styled from "styled-components";
 import { v1 as uuid } from "uuid";
+import { updateUser } from "../../reducer/userState";
+
 function BuyBox({ setBuyClick, buyBoxItem, setIsValidBuy }) {
   const [isBought, setIsBought] = useState("");
-  const { userData, updateUserData } = useContext(UserData);
-  const { userBoxList, userRewardList, getUserBoxList, setUserBoxList } =
-    useContext(UserInventoryData);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user.info);
+  const { boxList: userBoxList, rewardList: userRewardList } = userData;
   const history = useNavigate();
 
   function funcBuyBox() {
     if (userData.key >= buyBoxItem.boxPrice) {
       setIsBought("true");
-      const temp = JSON.parse(localStorage.getItem("userBoxList"))
-        ? JSON.parse(localStorage.getItem("userBoxList"))
-        : [];
       const boxNew = { ...buyBoxItem, boxId: uuid() };
-      temp.push(boxNew);
-      localStorage.setItem("userBoxList", JSON.stringify(temp));
-      getUserBoxList();
-      updateUserData({ key: userData.key - buyBoxItem.boxPrice });
+      dispatch(updateUser("boxList", [...userBoxList, boxNew]));
+      dispatch(updateUser("key", userData.key - buyBoxItem.boxPrice));
     } else {
       setIsBought("false");
     }

@@ -1,21 +1,26 @@
 import Container from "components/common/Container";
 import SubmitButton from "components/common/SubmitButton";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v1 as uuid } from "uuid";
 import { useLocation } from "react-router-dom";
 import RewardItemCard from "../RewardItemCard";
 import PopupRewardSelceted from "../PopupRewardSelceted";
-import { UserInventoryData } from "store/UserInventory";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../../reducer/userState";
+
 function MyBoxOpen() {
-  const { userBoxList, userRewardList, getUserRewardList, getUserBoxList } =
-    useContext(UserInventoryData);
+  const dispatch = useDispatch();
+  const { boxList: userBoxList, rewardList: userRewardList } = useSelector(
+    (state) => state.user.info
+  );
   const { state: item } = useLocation();
   const [randomList, setRandomList] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
   const [isModal, setIsModal] = useState("box");
   const [selectBtnClick, setSelectBtnClick] = useState(false);
+
   useEffect(() => {
     randomRefresh();
   }, []);
@@ -41,12 +46,13 @@ function MyBoxOpen() {
   }
   function funcAddReward() {
     // 박스 삭제
-    const tempBox = [...userBoxList];
-    tempBox.splice(userBoxList.indexOf(item), 1);
-    localStorage.setItem("userBoxList", JSON.stringify(tempBox));
-    getUserBoxList();
+    dispatch(
+      updateUser(
+        "boxList",
+        userBoxList.filter((x) => x.boxId !== item.boxId)
+      )
+    );
     // 리워드 추가
-    const tempReward = [...userRewardList];
     const newDate = moment().add(6, "months").format("YYYY.MM.DD");
     let barCodeNum = uuid().split("-")[4];
     barCodeNum = `${barCodeNum.slice(0, 4)} ${barCodeNum.slice(
@@ -59,9 +65,7 @@ function MyBoxOpen() {
       expiryDate: newDate,
       productId: uuid(),
     };
-    tempReward.push(newItem);
-    localStorage.setItem("userRewardList", JSON.stringify(tempReward));
-    getUserRewardList();
+    dispatch(updateUser("rewardList", [...userRewardList, newItem]));
     setSelectBtnClick(true);
   }
   return (

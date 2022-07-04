@@ -1,17 +1,20 @@
 import BackHeader from "components/common/BackHeader";
 import Container from "components/common/Container";
 import ScrollBox from "components/common/ScrollBox";
-import React, { useContext, useState } from "react";
-import { UserInventoryData } from "store/UserInventory";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import MyBoxList from "../MyBoxList";
 import MyProductList from "../MyProductList";
+import { updateUser } from "reducer/userState";
+
 const tabList = ["MOA 박스", "상품"];
 
 function MyReward() {
   const [tabName, setTabName] = useState(tabList[0]);
-  const { userBoxList, userRewardList, getUserBoxList } =
-    useContext(UserInventoryData);
+  const { boxList: userBoxList, rewardList: userRewardList } = useSelector(
+    (state) => state.user.info
+  );
 
   return (
     <Container>

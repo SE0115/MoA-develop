@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
 import styled from "styled-components";
 import MyBoxListItem from "./MyBoxListItem";
 import { v1 as uuid } from "uuid";
-import { UserInventoryData } from "store/UserInventory";
+import { useSelector } from "react-redux";
+
 function MyBoxList({ tabName, tabList }) {
-  const { userBoxList } = useContext(UserInventoryData);
+  const { boxList: userBoxList } = useSelector((state) => state.user.info);
+
   return (
     <MyBoxListStyle className={tabList[0] === tabName ? "isSelect" : ""}>
       {0 < userBoxList.length && (

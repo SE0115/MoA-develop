@@ -1,9 +1,9 @@
 import BackHeader from "components/common/BackHeader";
 import Container from "components/common/Container";
 import ScrollBox from "components/common/ScrollBox";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
 import styled from "styled-components";
 import BuyBox from "../BuyBox";
 import RewardBoxList from "../RewardBoxList";
@@ -14,7 +14,8 @@ function Reward() {
   const [buyClick, setBuyClick] = useState(false);
   const [buyBoxItem, setBuyBoxItem] = useState({});
   const [isValidBuy, setIsValidBuy] = useState(false);
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user);
+
   useEffect(() => {
     if (buyClick) {
       if (userData.id) {

@@ -1,14 +1,18 @@
 import ContentControlBtn from "components/common/ContentControlBtn";
 import ScrollBox from "components/common/ScrollBox";
 import MyProductListItem from "./MyProductListItem";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 import { v1 as uuid } from "uuid";
-import { UserInventoryData } from "store/UserInventory";
+import { useSelector } from "react-redux";
+
 const controlNameList = ["부대 내", "부대 외"];
+
 function MyProductList({ tabName, tabList }) {
   const [listControl, setListControl] = useState(controlNameList[0]);
-  const { userRewardList } = useContext(UserInventoryData);
+  const { rewardList: userRewardList } = useSelector(
+    (state) => state.user.info
+  );
   const [inReward, setInReward] = useState([]);
   const [outReward, setOutReward] = useState([]);
   useEffect(() => {
