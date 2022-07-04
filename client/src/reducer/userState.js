@@ -1,5 +1,5 @@
 import createReducer from "../reducer/createReducer";
-import usersList from "mockData/usesList";
+import usersList from "mockData/usersList";
 
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
