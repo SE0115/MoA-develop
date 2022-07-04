@@ -3,10 +3,16 @@ import createReducer from "./createReducer";
 const ADD = "gather/ADD";
 const UPDATE = "gather/UPDATE";
 const DELETE = "gather/DELETE";
+const DEPOSIT = "gather/DEPOSIT";
 
 export const addGather = (gather) => ({ type: ADD, gather });
 export const updateGather = (gather) => ({ type: UPDATE, gather });
 export const deleteGather = (gather) => ({ type: DELETE, gather });
+export const deposit = (gather, transaction) => ({
+  type: DEPOSIT,
+  gather,
+  transaction,
+});
 
 const INITIAL_STATE = {
   gatherList: [],
@@ -24,6 +30,15 @@ const reducer = createReducer(INITIAL_STATE, {
     state.gatherList = state.gatherList.filter(
       (gather) => gather.id !== action.gather.id
     );
+  },
+  [DEPOSIT]: (state, action) => {
+    const index = state.gatherList.findIndex(
+      (gather) => gather.id === action.gather.id
+    );
+    state.gatherList[index].transactions.push(action.transaction);
+    state.gatherList[index].currentAmount =
+      Number(state.gatherList[index].currentAmount) +
+      Number(action.transaction.amount);
   },
 });
 
