@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { v1 as uuid } from "uuid";

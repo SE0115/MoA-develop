@@ -1,8 +1,5 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import React, { useContext } from "react";
-// import { UserData } from "store/User";
-import { GatherList } from "store/GatherListContext";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../../reducer/userState";
 
@@ -38,14 +35,10 @@ const StyledLinkButton = styled.div`
 
 function LinkButton({ title, to, trans }) {
   const navigate = useNavigate();
-  // const User = useContext(UserData);
   const dispatch = useDispatch();
-  const { setGatherList } = useContext(GatherList);
 
   const logout = () => {
-    // User.logOut();
     dispatch(logOut());
-    setGatherList([]);
     navigate("/login");
   };
 
