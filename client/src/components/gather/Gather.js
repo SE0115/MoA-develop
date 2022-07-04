@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AddBtn from "components/gather/AddBtn";
 import ContentControlBtn from "components/common/ContentControlBtn";
@@ -7,10 +7,7 @@ import NavBar from "components/common/NavBar";
 import StateGather from "components/gather/detail/StateGather";
 import { ReactSortable } from "react-sortablejs";
 import moment from "moment";
-// import { GatherList } from "store/GatherListContext";
-import { UserData } from "store/User";
 import { Header } from "components/common/Header";
-
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
@@ -92,8 +89,7 @@ const EditBtn = styled.button`
 `;
 
 function Gather() {
-  const { userData } = useContext(UserData);
-  // const { gatherList } = useContext(GatherList) || [];
+  const userData = useSelector((state) => state.user);
   const gatherList = useSelector((state) => state.gather.gatherList);
   const inProgressList = [];
   const completedList = [];
@@ -139,7 +135,9 @@ function Gather() {
   return (
     <Container>
       <Header $title={false} keys={30} alarm={false}></Header>
-      <div className="Title">{userData.name}님이 현재 모으고 있는 금액은?</div>
+      <div className="Title">
+        {userData.info.name}님이 현재 모으고 있는 금액은?
+      </div>
       <div className="TotalAmount">
         <span className="green">{totalAmount.toLocaleString()}</span> 원
       </div>
