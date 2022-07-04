@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { styleTitle, styleSubTitle, styleNotice } from "style/common";
 import BackHeader from "components/common/BackHeader";
@@ -8,7 +8,7 @@ import CustomBtn from "components/gather/addGoal/CustomBtn";
 import Category from "components/gather/addGoal/Category";
 import DatePick from "components/gather/addGoal/DatePick";
 import moment from "moment";
-import { UserData } from "store/User";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -52,7 +52,7 @@ const InputEl = styled.div`
 `;
 
 function EditGoal() {
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user.info);
 
   const { state: props } = useLocation();
   const prev = props;
@@ -147,7 +147,6 @@ function EditGoal() {
         path={"complete"}
         addFunc={() => applyNewInputs(newInputs)}
         data={{
-          prev: prev,
           newInputs: newInputs,
           whatEdit: "goal",
         }}

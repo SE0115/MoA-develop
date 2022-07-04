@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import BackHeader from "components/common/BackHeader";
 import { styleTitle, styleSubTitle, styleNotice } from "style/common";
@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import CustomInput from "components/common/CustomInput";
 import CustomBtn from "components/gather/addGoal/CustomBtn";
 import SelectBox from "components/gather/addGoal/SelectBox";
-import { UserAccount } from "store/UserAccount";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -58,6 +58,8 @@ const InputEl = styled.div`
 
 function EditDeposit() {
   const { state: props } = useLocation();
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const inout = accounts.filter((x) => x.accountType === "입출금");
   const prev = props;
 
   const [newInputs, setNewInputs] = useState({
@@ -95,8 +97,6 @@ function EditDeposit() {
       ).length > 0
     );
   };
-
-  const { inout } = useContext(UserAccount).userAccount;
 
   return (
     <Container>
@@ -203,7 +203,7 @@ function EditDeposit() {
       </Content>
       <CustomBtn
         path={"complete"}
-        data={{ prev: prev, newInputs: newInputs, whatEdit: "deposit" }}
+        data={{ newInputs: newInputs, whatEdit: "deposit" }}
         active={isEdited()}
       >
         자동이체 변경

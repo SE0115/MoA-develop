@@ -1,12 +1,8 @@
-import React, { useContext } from "react";
 import styled, { css } from "styled-components";
 import { styleTitle, styleSubTitle } from "style/common";
 import CustomBtn from "components/gather/addGoal/CustomBtn";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
-import { GatherList } from "store/GatherListContext";
-import { UserData } from "store/User";
-
 import { useDispatch } from "react-redux";
 import { updateGather } from "reducer/gatherState";
 
@@ -86,9 +82,7 @@ const InfoEl = styled.div`
 function EditComplete() {
   const dispatch = useDispatch();
   const { state } = useLocation();
-  const { prev, newInputs, whatEdit } = state;
-  const { setGatherList } = useContext(GatherList);
-  const { updateUserData } = useContext(UserData);
+  const { newInputs, whatEdit } = state;
 
   const editCates = {
     goal: "목표를 수정했어요",
@@ -241,9 +235,6 @@ function EditComplete() {
       </Content>
       <CustomBtn
         addFunc={() => {
-          // setGatherList((prevList) =>
-          //   prevList.map((x) => (x.id === prev.id ? newInputs : x))
-          // ); // Todo: 삭제
           dispatch(updateGather(newInputs));
         }}
         active={true}
