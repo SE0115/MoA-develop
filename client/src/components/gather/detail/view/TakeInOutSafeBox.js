@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { styleTitle, styleSubTitle, styleNotice } from "style/common";
 import { useLocation } from "react-router-dom";
@@ -7,7 +7,7 @@ import SliderInput from "components/gather/safebox/SliderInput";
 import CustomInput from "components/common/CustomInput";
 import CustomBtn from "components/gather/addGoal/CustomBtn";
 import KeypadModal from "components/gather/safebox/KeypadModal";
-import { UserAccount } from "store/UserAccount";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   position: relative;
@@ -64,7 +64,9 @@ const InputEl = styled.div`
 
 function TakeInOutSafeBox() {
   const [modal, setModal] = useState(false);
-  const { inout, interlock } = useContext(UserAccount).userAccount;
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const inout = accounts.filter((x) => x.accountType === "입출금");
+  const interlock = accounts.filter((x) => x.accountType === "제휴");
   const { state } = useLocation();
   const { props, usage } = state;
 

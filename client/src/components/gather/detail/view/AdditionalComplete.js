@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
 import styled from "styled-components";
 import { styleTitle, styleSubTitle } from "style/common";
 import CustomBtn from "components/gather/addGoal/CustomBtn";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
-import { GatherList } from "store/GatherListContext";
-import { UserAccount } from "store/UserAccount";
+import { useDispatch, useSelector } from "react-redux";
+import { deposit } from "reducer/gatherState";
 
 const Container = styled.div`
   width: 100%;
@@ -78,8 +77,10 @@ const InfoEl = styled.div`
 function AdditionalComplete() {
   const { state } = useLocation();
   const { props, inOutMoney } = state;
-  const { setGatherList } = useContext(GatherList);
-  const { inout } = useContext(UserAccount).userAccount;
+  const dispatch = useDispatch();
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const inout = accounts.filter((x) => x.accountType === "입출금");
+
   const trFormat = (props, input) => {
     const formatted = {
       date: moment(new Date()).format("MM월 DD일"),
@@ -140,20 +141,10 @@ function AdditionalComplete() {
         active={true}
         addFunc={() => {
           const transactionEl = trFormat(props, inOutMoney);
+          dispatch(deposit(props, transactionEl));
           props.transactions.push(transactionEl);
           props.currentAmount =
             Number(props.currentAmount) + Number(inOutMoney);
-          setGatherList((prevList) =>
-            prevList.map((x) =>
-              x.id === props.id
-                ? {
-                    ...x,
-                    currentAmount: props.currentAmount,
-                    transactions: [...x.transactions, transactionEl],
-                  }
-                : x
-            )
-          );
         }}
         path="/gather/detail"
         data={props}
