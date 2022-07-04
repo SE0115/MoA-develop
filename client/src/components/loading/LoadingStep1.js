@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
-import { UserData } from "store/User";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 function LoadingStep1() {
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user);
   return (
     <Content>
       <Title>
         <span className="num">{userData.id}</span>
         <div className="bold">
-          <span className="green">{userData.name}</span>
+          <span className="green">{userData.info.name}</span>
           <span>님</span>
         </div>
         <span className="bold">모아(MOA) 가입을 환영합니다!</span>

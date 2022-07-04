@@ -26,7 +26,13 @@ const reducer = createReducer(INITIAL_STATE, {
     state.info = usersList[userIndex].info;
   },
   [ADD_ACCOUNT]: (state, action) => state.info.accounts.push(action.account),
-  [UPDATE_USER]: (state, action) => (state.info[action.name] = action.value),
+  [UPDATE_USER]: (state, action) => {
+    if (action.name === "info") {
+      state.info = action.value;
+    } else {
+      state.info[action.name] = action.value;
+    }
+  },
 });
 
 export default reducer;

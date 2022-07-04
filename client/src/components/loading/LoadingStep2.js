@@ -1,18 +1,17 @@
 import Container from "components/common/Container";
 import SubmitButton from "components/common/SubmitButton";
-import React, { useContext } from "react";
-import { UserData } from "store/User";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 function LoadingStep2({ setStep }) {
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user);
 
   return (
     <Container>
       <Content>
         <Title>
           <span>모아 사용을 위해</span>
-          <span>{userData.name}님의 군 관련 계좌가</span>
+          <span>{userData.info.name}님의 군 관련 계좌가</span>
           <span>지금부터 자동으로 연결됩니다</span>
         </Title>
         <SubTitle>

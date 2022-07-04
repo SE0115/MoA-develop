@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import AccountFound from "../comp/AccountFound";
 import AccountInfo from "../comp/AccountInfo";
 import SetGoal from "../comp/SetGoal";
-import { UserData } from "store/User";
-import { UserAccount } from "store/UserAccount";
+import { useSelector } from "react-redux";
+import filterAccount from "../../profile/function/filterAccount";
 
 const InterLock = () => {
   const [step, setStep] = useState(1);
@@ -11,11 +11,8 @@ const InterLock = () => {
   const setStepWrapper = (input) => {
     setStep(input);
   };
-
-  const account_data = useContext(UserAccount).userAccount;
-
-  const User = useContext(UserData);
-  const userData = User.userData;
+  const userData = useSelector((state) => state.user.info);
+  const filteredAccounts = filterAccount(userData.accounts);
 
   return (
     <div>
@@ -23,17 +20,19 @@ const InterLock = () => {
         <AccountFound
           func={setStepWrapper}
           name={userData.name}
-          count={account_data.inout.length + account_data.install.length}
+          count={
+            filteredAccounts.inout.length + filteredAccounts.install.length
+          }
         ></AccountFound>
       )}
       {step === 2 && (
         <AccountInfo
-          accounts={account_data}
+          accounts={filteredAccounts}
           func={setStepWrapper}
         ></AccountInfo>
       )}
       {step === 3 && (
-        <SetGoal name={userData.name} accounts={account_data}></SetGoal>
+        <SetGoal name={userData.name} accounts={filteredAccounts}></SetGoal>
       )}
     </div>
   );

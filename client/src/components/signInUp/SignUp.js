@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import {
   styleTitle,
@@ -9,8 +9,9 @@ import {
 import CustomBtn from "components/gather/addGoal/CustomBtn";
 import { hideScrollBar } from "style/common";
 import CustomInput from "components/common/CustomInput";
-import { UserData } from "store/User";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn, updateUser } from "../../reducer/userState";
 
 const Container = styled.div`
   width: 100%;
@@ -132,7 +133,8 @@ function SignUp() {
     ),
   };
 
-  const { login: funcLogin, userData } = useContext(UserData);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user);
   const history = useNavigate();
 
   useEffect(() => {
@@ -307,14 +309,31 @@ function SignUp() {
         }
         path={"/loading"}
         addFunc={() => {
-          funcLogin({
-            id: [signUp.serviceNumber1, signUp.serviceNumber2].join("-"),
+          const newUser = {
             name: signUp.name,
             join_date: "2021-08-01",
             unit: "11사단 화랑부대",
             phone: signUp.phoneNumber,
             key: 0,
-          });
+            boxList: [],
+            rewardList: [],
+            accounts: [
+              {
+                id: 1,
+                bankName: "KB국민",
+                accountName: "KB나라사랑우대통장",
+                accountNumber: "112-0330-0201",
+                currentAmount: 500000,
+                accountType: "입출금",
+                bankImageUrl:
+                  "https://raw.githubusercontent.com/BuenCamino3rd/test/0e4636ad19708f8cb18cecc869e0a7ef618c0adf/image/kb.svg",
+              },
+            ],
+          };
+          dispatch(
+            logIn([signUp.serviceNumber1, signUp.serviceNumber2].join("-"))
+          );
+          dispatch(updateUser("info", newUser));
         }}
       >
         회원가입
