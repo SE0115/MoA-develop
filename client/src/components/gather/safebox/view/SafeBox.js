@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { styleTitle, styleSubTitle, styleNotice } from "style/common";
 import { useLocation } from "react-router-dom";
@@ -6,9 +6,8 @@ import BackHeader from "components/common/BackHeader";
 import SliderInput from "../SliderInput";
 import CustomInput from "components/common/CustomInput";
 import CustomBtn from "../../addGoal/CustomBtn";
-import { accountList } from "components/common/dummyData";
 import { v1 as uuid } from "uuid";
-import { UserAccount } from "store/UserAccount";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -64,7 +63,8 @@ const InputEl = styled.div`
 
 function SafeBox() {
   const avgSafeAmount = 200000;
-  const { inout } = useContext(UserAccount).userAccount;
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const inout = accounts.filter((x) => x.accountType === "입출금");
   const { state } = useLocation();
 
   const [safeInputs, setSafeInputs] = useState({

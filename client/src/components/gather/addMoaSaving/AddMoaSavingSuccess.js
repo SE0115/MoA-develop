@@ -1,18 +1,16 @@
 import Container from "components/common/Container";
 import ScrollBox from "components/common/ScrollBox";
 import SubmitButton from "components/common/SubmitButton";
-import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
-import { UserAccount } from "store/UserAccount";
 import styled from "styled-components";
 import ApplyDataCard from "./ApplyDataCard";
+import { useDispatch } from "react-redux";
+import { addAccount } from "../../../reducer/userState";
 
 function AddMoaSavingSuccess() {
   const history = useNavigate();
   const { state: stateData } = useLocation();
-  const { updateUserData } = useContext(UserData);
-  const { userAccount, setUserAccount } = useContext(UserAccount);
+  const dispatch = useDispatch();
 
   return (
     <Container>
@@ -46,10 +44,7 @@ function AddMoaSavingSuccess() {
             bankImageUrl:
               "https://raw.githubusercontent.com/BuenCamino3rd/test/d42a6f54e323fa3ed83729e8d294460253d53910/image/hana.svg",
           };
-          updateUserData({ userInterlock: [data] });
-          const temp = userAccount;
-          temp.interlock.push(data);
-          setUserAccount(temp);
+          dispatch(addAccount(data));
           if ("목표" === stateData.savingType) {
             history("/gather/add-goal");
           } else {

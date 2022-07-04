@@ -1,19 +1,19 @@
 import BackHeader from "components/common/BackHeader";
 import Container from "components/common/Container";
 import SubmitButton from "components/common/SubmitButton";
-import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
 import styled from "styled-components";
 
 function AddMoaSaving() {
   const history = useNavigate();
   const { state: savingType } = useLocation();
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user);
+
   return (
     <Container>
       <BackHeader path={-1} isScrolled={true} title={""} />
-      <Title className="first">{userData.name}님,</Title>
+      <Title className="first">{userData.info.name}님,</Title>
       <Title>
         첫 {savingType}
         {"목표" === savingType ? "를" : "을"} 세우시는군요!

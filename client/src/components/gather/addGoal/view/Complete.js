@@ -1,13 +1,9 @@
-import React, { useContext } from "react";
 import styled, { css } from "styled-components";
 import { styleTitle, styleSubTitle } from "style/common";
 import CustomBtn from "../CustomBtn";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
-// import { GatherList } from "store/GatherListContext";
-import { UserAccount } from "store/UserAccount";
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addGather } from "reducer/gatherState";
 
 const styleText = css`
@@ -90,8 +86,10 @@ function Complete() {
   const { state } = useLocation();
   const { props, name } = state;
 
-  // const { setGatherList } = useContext(GatherList);
-  const { inout, interlock } = useContext(UserAccount).userAccount;
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const inout = accounts.filter((x) => x.accountType === "입출금");
+  const interlock = accounts.filter((x) => x.accountType === "제휴");
+
   return (
     <Container>
       <Content>
@@ -186,7 +184,6 @@ function Complete() {
 
       <CustomBtn
         addFunc={() => {
-          // setGatherList((prev) => [...prev, props]); // Todo: 삭제
           dispatch(addGather(props));
         }}
         path={"/key"}
