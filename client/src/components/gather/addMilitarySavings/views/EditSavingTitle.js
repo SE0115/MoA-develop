@@ -1,20 +1,23 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Container from "components/common/Container";
 import SubmitButton from "components/common/SubmitButton";
 import ScrollBox from "components/common/ScrollBox";
 import EditTitle from "../../EditTitle";
-import { GatherList } from "store/GatherListContext";
 import { v1 as uuid } from "uuid";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { addGather } from "../../../../reducer/gatherState";
+
 function EditSavingTitle() {
+  const dispatch = useDispatch();
   const history = useNavigate();
   const { state: applyData } = useLocation();
   const startTitle = "";
   const [isInputChange, setIsInputChange] = useState(false);
   const [newTitle, setNewTitle] = useState(startTitle);
-  const { setGatherList } = useContext(GatherList);
+
   useEffect(() => {
     if (newTitle === "") {
       setIsInputChange(false);
@@ -45,9 +48,8 @@ function EditSavingTitle() {
       applyData.formData.formDataMonth,
       "months"
     )._d;
-    setGatherList((pre) => [
-      ...pre,
-      {
+    dispatch(
+      addGather({
         id: uuid(),
         savingMode: "군적금",
         goalName: newTitle,
@@ -71,8 +73,8 @@ function EditSavingTitle() {
           ? Number(applyData.formData.formDataAmount)
           : 0,
         transactions: [],
-      },
-    ]);
+      })
+    );
     history("/key", {
       state: {
         num: 3,
