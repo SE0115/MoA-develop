@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { styleTitle, styleSubTitle, styleNotice } from "style/common";
 import Category from "components/gather/addGoal/Category";
@@ -9,7 +9,7 @@ import BackHeader from "components/common/BackHeader";
 import { hideScrollBar } from "style/common";
 import DatePick from "../DatePick";
 import { v1 as uuid } from "uuid";
-import { UserAccount } from "store/UserAccount";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -95,7 +95,9 @@ const SubSelectBox = styled.div`
 
 function Goal() {
   const avgCnt = 2;
-  const { inout } = useContext(UserAccount).userAccount;
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const inout = accounts.filter((x) => x.accountType === "입출금");
+
   const [inputs, setInputs] = useState({
     id: uuid(),
     savingMode: "목표",
