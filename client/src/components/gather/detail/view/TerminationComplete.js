@@ -1,10 +1,7 @@
-import React, { useContext } from "react";
 import styled, { css } from "styled-components";
 import { styleTitle, styleSubTitle } from "style/common";
 import CustomBtn from "components/gather/addGoal/CustomBtn";
 import { useLocation } from "react-router-dom";
-import { GatherList } from "store/GatherListContext";
-
 import { useDispatch } from "react-redux";
 import { deleteGather } from "reducer/gatherState";
 
@@ -82,7 +79,7 @@ const InfoEl = styled.div`
 function TerminationComplete() {
   const dispatch = useDispatch();
   const { state: props } = useLocation();
-  const { setGatherList } = useContext(GatherList);
+
   return (
     <Container>
       <Content>
@@ -137,9 +134,6 @@ function TerminationComplete() {
         active={true}
         path="/gather"
         addFunc={() => {
-          // setGatherList((prevList) =>
-          //   prevList.filter((x) => x.goalName !== props.goalName)
-          // ); // Todo: 삭제
           dispatch(deleteGather(props));
         }}
       >

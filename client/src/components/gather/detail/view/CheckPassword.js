@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import BackHeader from "components/common/BackHeader";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserAccount } from "store/UserAccount";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -105,7 +105,8 @@ const NumBtn = styled.button`
 function CheckPassword() {
   const history = useNavigate();
   const { state: props } = useLocation();
-  const { interlock } = useContext(UserAccount).userAccount;
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const interlock = accounts.filter((x) => x.accountType === "제휴");
 
   const [input, setInput] = useState("");
   const [result, setResult] = useState(true);
