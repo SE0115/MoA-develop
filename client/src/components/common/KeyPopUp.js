@@ -1,25 +1,22 @@
-import React, { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
 import styled from "styled-components";
 import Container from "./Container";
 import ScrollBox from "./ScrollBox";
+import { updateUser } from "../../reducer/userState";
 
 function KeyPopUp() {
   const { state: keyInfo } = useLocation();
-  const { userData, updateUserData } = useContext(UserData);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user);
   const history = useNavigate();
 
-  function updateUserKeyNum() {
-    const newKeyNum = userData.key + keyInfo.num;
-    updateUserData({ key: newKeyNum });
-  }
   return (
     <Container>
       <Header>
         <img
           onClick={() => {
-            updateUserKeyNum();
+            dispatch(updateUser("key", keyInfo.num + userData.info.key));
             history(keyInfo.nextPath);
           }}
           src={require("assets/ic_close.svg").default}
@@ -52,7 +49,7 @@ function KeyPopUp() {
         </MessageCard>
         <SaveBtn
           onClick={() => {
-            updateUserKeyNum();
+            dispatch(updateUser("key", keyInfo.num + userData.info.key));
             history(keyInfo.nextPath);
           }}
         >
