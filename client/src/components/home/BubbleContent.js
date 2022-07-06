@@ -1,9 +1,9 @@
-import React, { Fragment, useContext } from "react";
-import { UserData } from "store/User";
+import React, { Fragment } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 function BubbleContent({ gatherNumList }) {
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user);
   const isMax =
     2 === gatherNumList.army &&
     (0 < gatherNumList.goal || 0 < gatherNumList.safeBox);
