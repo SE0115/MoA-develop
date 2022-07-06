@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import BackHeader from "components/common/BackHeader";
-import { UserData } from "store/User";
-import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 
 const StyledBody = styled.div`
   font-family: "Pretendard-Regular";
@@ -98,9 +97,8 @@ const Box = styled.div`
 `;
 
 const ProfileEdit = () => {
-  //context에서 가져온다고 가정
-  const User = useContext(UserData);
-  const default_phone = User.userData.phone;
+  const userData = useSelector((state) => state.user);
+  const default_phone = userData.info.phone;
 
   const {
     register,
