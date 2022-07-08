@@ -11,7 +11,7 @@ const competeList = [
   },
   {
     key: "2",
-    due: new Date("2022-08-15T02:00:00"),
+    due: new Date("2022-07-29T02:00:00"),
     thumb: "worldsoccer.png",
     title: "월드컵 예선 승자는?",
     versus: ["벨기에", "스페인"],
@@ -31,7 +31,7 @@ const competeList = [
   },
   {
     key: "4",
-    due: new Date("2022-07-14T03:00:00"),
+    due: new Date("2022-08-15T03:00:00"),
     thumb: "game.png",
     title: "롤챔스 경기 승자는?",
     versus: ["T1", "DK"],
@@ -41,7 +41,7 @@ const competeList = [
   },
   {
     key: "5",
-    due: new Date("2022-03-21T17:00:00"),
+    due: new Date("2022-10-21T17:00:00"),
     thumb: "game.png",
     title: "롤챔스 경기 승자는?",
     versus: ["BRI", "KDF"],
@@ -61,7 +61,7 @@ const competeList = [
   },
   {
     key: "7",
-    due: new Date("2022-03-27T15:00:00"),
+    due: new Date("2023-03-27T15:00:00"),
     thumb: "game.png",
     title: "롤챔스 경기 승자는?",
     versus: ["BRI", "DK"],
@@ -71,7 +71,7 @@ const competeList = [
   },
   {
     key: "8",
-    due: new Date("2022-05-11T11:00:00"),
+    due: new Date("2023-05-11T11:00:00"),
     thumb: "game.png",
     title: "롤챔스 경기 승자는?",
     versus: ["BRI", "T1"],
