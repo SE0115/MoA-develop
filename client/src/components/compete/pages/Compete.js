@@ -1,12 +1,12 @@
 import { Header } from "components/common/Header";
 import NavBar from "components/common/NavBar";
 import styled from "styled-components";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import CompLists from "./CompLists";
 import Banner from "../comp/BannerSwiper";
 import CategoryButton from "../comp/CategoryButton";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserData } from "store/User";
+import { useSelector } from "react-redux";
 
 const StyleNavBar = styled(NavBar)`
   position: fixed;
@@ -30,7 +30,7 @@ function Compete() {
     setisAll(input);
   }
 
-  const user = useContext(UserData);
+  const userData = useSelector((state) => state.user);
 
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ function Compete() {
           <CategoryButton
             disabled={!isAll}
             onClick={() =>
-              user.userData.id !== ""
+              userData.id !== ""
                 ? setCategoryWrapper(false)
                 : navigate("/login")
             }

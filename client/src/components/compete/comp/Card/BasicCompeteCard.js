@@ -2,8 +2,7 @@ import styled from "styled-components";
 import formatDate from "../../function/DateChanger";
 import StyledLink from "components/common/StyledLink";
 import kFormatter from "../../function/kFormatter";
-import { MyCompete } from "store/CompeteMy";
-import { useContext } from "react";
+import userCompList from "mockData/userCompList";
 
 import {
   ContentBox,
@@ -15,6 +14,7 @@ import {
   Title,
   Versus,
 } from "./CardComps";
+import { useSelector } from "react-redux";
 
 const Card = styled.div`
   ${CardDesign}
@@ -27,8 +27,8 @@ const Card = styled.div`
 `;
 
 function BasicCompeteCard({ obj }) {
-  const myContext = useContext(MyCompete);
-  const result = myContext.searchItem(obj.key);
+  const userData = useSelector((state) => state.user);
+  const result = userCompList[userData.id].filter((x) => x.key === obj.key);
 
   return (
     <StyledLink
