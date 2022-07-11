@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
 import styled from "styled-components";
 import RewardBoxItem from "./RewardBoxItem";
 import { v1 as uuid } from "uuid";
-import { BoxListData } from "store/BoxList";
-function RewardBoxList({ setBuyBoxItem, setBuyClick }) {
-  const { boxList: boxItemList } = useContext(BoxListData);
+import boxItemList from "../../mockData/boxList";
 
+function RewardBoxList({ setBuyBoxItem, setBuyClick }) {
   return (
     <BoxList>
       {boxItemList &&
