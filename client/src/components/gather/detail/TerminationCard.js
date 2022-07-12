@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
 import styled from "styled-components";
 import moment from "moment";
-import { UserAccount } from "store/UserAccount";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   padding: 20px;
@@ -56,7 +55,10 @@ const Container = styled.div`
 `;
 
 function TerminationCard({ props }) {
-  const { inout, interlock } = useContext(UserAccount).userAccount;
+  const accounts = useSelector((state) => state.user.info.accounts);
+  const inout = accounts.filter((x) => x.accountType === "입출금");
+  const interlock = accounts.filter((x) => x.accountType === "제휴");
+
   return (
     <Container>
       <div className="accountInfo">
