@@ -1,10 +1,12 @@
 import { createStore, combineReducers } from "redux";
 import userReducer, { logIn, logOut } from "./userState";
 import gatherReducer from "./gatherState";
+import competeReducer from "./competeState";
 
 const reducer = combineReducers({
   user: userReducer,
   gather: gatherReducer,
+  compete: competeReducer,
 });
 
 const persistedState = localStorage.getItem("reduxState")
