@@ -11,7 +11,9 @@ import CustomInput from "components/common/CustomInput";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logIn, setUser } from "../../reducer/userState";
+import { addCompete } from "../../reducer/competeState";
 import userDB from "mockData/userDB";
+import userCompList from "mockData/userCompList";
 
 const Container = styled.div`
   width: 100%;
@@ -204,21 +206,12 @@ function SignIn() {
           path={checkLogin(login) ? "/home" : ""}
           addFunc={() => {
             if (checkLogin(login)) {
-              dispatch(
-                logIn([login.serviceNumber1, login.serviceNumber2].join("-"))
+              const userId = [login.serviceNumber1, login.serviceNumber2].join(
+                "-"
               );
-              dispatch(
-                setUser([login.serviceNumber1, login.serviceNumber2].join("-"))
-              );
-              // Todo: 계좌 정보 연결
-              // userAccount.install.map((x) =>
-              //   setGatherList((prev) => [...prev, gatherFormat(x)])
-              // );
-              // updateUserData({
-              //   userAccountList: userAccount.inout,
-              //   userSavingList: userAccount.install,
-              //   userInterlock: userAccount.interlock,
-              // });
+              dispatch(logIn(userId));
+              dispatch(setUser(userId));
+              dispatch(addCompete(userCompList[userId]));
             } else {
               setIsSuccess(false);
             }

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { hideScrollBar } from "style/common";
 import FilterList from "../function/FilterList";
-import userCompList from "mockData/userCompList";
 import { useSelector } from "react-redux";
 
 //[styled comp] : 리스트 컨테이너
@@ -16,8 +15,7 @@ const StyledMyList = styled.div`
 
 //cond : 챌린지 필터링 조건
 const MyList = ({ cond }) => {
-  const userData = useSelector((state) => state.user);
-  const compList = userCompList[userData.id];
+  const compList = useSelector((state) => state.compete.competeList);
 
   //챌린지 없을 때 테스트
   // const compList = [];

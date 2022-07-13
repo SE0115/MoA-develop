@@ -17,11 +17,11 @@ function filterExpired(done, compList) {
 
   //ing
   if (!done) {
-    filterdList = compList.filter((obj) => obj.due > now);
+    filterdList = compList.filter((obj) => new Date(obj.due) > now);
   }
   //done
   else {
-    filterdList = compList.filter((obj) => obj.due < now);
+    filterdList = compList.filter((obj) => new Date(obj.due) < now);
   }
 
   return filterdList;
@@ -47,6 +47,7 @@ function createCardList(condition, compList) {
       filterdList = filterExpired(condition, compList);
       //최신순으로 정렬
       filterdList = filterdList.sort((a, b) => a.due - b.due);
+
       for (const obj of filterdList) {
         cardList.push(
           condition ? (

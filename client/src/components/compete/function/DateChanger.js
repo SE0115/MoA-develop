@@ -1,5 +1,6 @@
 //챌린지 카드에 쓰이는 날짜 형식을 지정하는 함수
 function formatDate(dateobj) {
+  dateobj = new Date(dateobj);
   const month = dateobj.getMonth() + 1;
   const date = dateobj.getDate();
   //요일

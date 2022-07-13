@@ -2,8 +2,6 @@ import styled from "styled-components";
 import formatDate from "../../function/DateChanger";
 import StyledLink from "components/common/StyledLink";
 import kFormatter from "../../function/kFormatter";
-import userCompList from "mockData/userCompList";
-
 import {
   ContentBox,
   Count,
@@ -27,8 +25,8 @@ const Card = styled.div`
 `;
 
 function BasicCompeteCard({ obj }) {
-  const userData = useSelector((state) => state.user);
-  const result = userCompList[userData.id].filter((x) => x.key === obj.key);
+  const userCompList = useSelector((state) => state.compete.competeList);
+  const result = userCompList.filter((x) => x.key === obj.key);
 
   return (
     <StyledLink

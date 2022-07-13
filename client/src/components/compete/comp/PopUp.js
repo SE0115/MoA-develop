@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { MyCompete } from "store/CompeteMy";
-import { UserData } from "store/User";
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "reducer/userState";
+import { addCompete, deleteCompete, updateCompete } from "reducer/competeState";
 
 //[styled comp] : 팝업 카드 배경
 const Background = styled.div`
@@ -95,30 +95,31 @@ const Modal = styled.div`
  */
 
 function PopUp({ betinfo, obj, func, type }) {
-  const myContext = useContext(MyCompete);
-  const user = useContext(UserData);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user);
+  const userCompete = useSelector((state) => state.compete.competeList);
   const navigate = useNavigate();
 
   const clickYes = () => {
     if (type) {
       //취소하기
       //현재 키 더해줌
-      const betted_key = myContext.searchItem(obj.key)[0].bet;
-      user.updateUserData({ key: user.userData.key + betted_key });
-      myContext.removeItem(obj.key);
+      const betted_key = userCompete.filter((x) => x.key === obj.key)[0].bet;
+      dispatch(updateUser("key", userData.info.key + betted_key));
+      dispatch(deleteCompete(obj.key));
     } else {
       //기존 배팅
-      const item = myContext.searchItem(obj.key);
+      const item = userCompete.filter((x) => x.key === obj.key);
 
       if (item.length !== 0) {
         const prevbet = item[0].bet;
-        user.updateUserData({ key: user.userData.key + prevbet - betinfo.bet });
-        myContext.updateItem(betinfo, prevbet);
+        dispatch(updateUser("key", userData.info.key + prevbet - betinfo.bet));
+        dispatch(updateCompete(betinfo));
       } else {
         //새로운 배팅일 경우
-        user.updateUserData({ key: user.userData.key - betinfo.bet });
+        dispatch(updateUser("key", userData.info.key - betinfo.bet));
         const newComp = { ...obj, ...betinfo };
-        myContext.addItem(newComp);
+        dispatch(addCompete(newComp));
       }
       navigate("/compete", { state: { type: false } });
     }
