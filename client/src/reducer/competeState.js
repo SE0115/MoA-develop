@@ -2,10 +2,12 @@ import createReducer from "./createReducer";
 
 const ADD = "compete/ADD";
 const DELETE = "compete/DELETE";
+const DELETEALL = "compete/DELETEALL";
 const UPDATE = "compete/UPDATE";
 
 export const addCompete = (compete) => ({ type: ADD, compete });
 export const deleteCompete = (key) => ({ type: DELETE, key });
+export const deleteAllCompete = () => ({ type: DELETEALL });
 export const updateCompete = (editInfo) => ({ type: UPDATE, editInfo });
 
 const INITIAL_STATE = {
@@ -22,6 +24,7 @@ const reducer = createReducer(INITIAL_STATE, {
   },
   [DELETE]: (state, action) =>
     (state.competeList = state.competeList.filter((x) => x.key !== action.key)),
+  [DELETEALL]: (state, action) => (state.competeList = []),
   [UPDATE]: (state, action) => {
     const { pick, bet, key } = action.editInfo;
     state.competeList.map((x) => {

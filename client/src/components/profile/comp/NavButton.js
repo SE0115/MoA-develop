@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../../reducer/userState";
+import { deleteAllGather } from "reducer/gatherState";
+import { deleteAllCompete } from "reducer/competeState";
 
 const StyledLinkButton = styled.div`
   width: 90%;
@@ -39,6 +41,8 @@ function LinkButton({ title, to, trans }) {
 
   const logout = () => {
     dispatch(logOut());
+    dispatch(deleteAllGather());
+    dispatch(deleteAllCompete());
     navigate("/login");
   };
 
