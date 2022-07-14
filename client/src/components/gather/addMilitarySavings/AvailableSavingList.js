@@ -1,15 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AvailableSavingItem from "./AvailableSavingItem";
 import { v1 as uuid } from "uuid";
 import styled from "styled-components";
-import { MiliSavingListData } from "store/MiliSavingList";
+import availableSavingList from "../../../mockData/miliSavingList";
 
 function AvailableSavingList({ listControl }) {
-  const { availableSavingList, getSavingList } = useContext(MiliSavingListData);
   const [sortedSavingList, setSortedSavingList] = useState([]);
-  useEffect(() => {
-    getSavingList();
-  }, []);
   useEffect(() => {
     const copyList = JSON.parse(JSON.stringify(availableSavingList));
     if ("최고금리순" === listControl) {
