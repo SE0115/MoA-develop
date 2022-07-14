@@ -2,17 +2,16 @@ import Container from "components/common/Container";
 import { Header } from "components/common/Header";
 import NavBar from "components/common/NavBar";
 import ScrollBox from "components/common/ScrollBox";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BubbleContent from "./BubbleContent";
 import StoreSvg from "components/gather/addGoal/StoreSvg";
-import { UserData } from "store/User";
 import StateGather from "components/gather/detail/StateGather";
-import { GatherList } from "store/GatherListContext";
-import { AllCompete } from "store/CompeteAll";
 import { groupBy } from "components/common/utils";
 import createCardList from "components/compete/function/FilterList";
+import { useSelector } from "react-redux";
+import allCompList from "../../mockData/competeList";
 
 const gatherCategorys = [
   {
@@ -33,11 +32,11 @@ const gatherCategorys = [
 ];
 
 function Home() {
-  const { userData } = useContext(UserData);
-  const { gatherList } = useContext(GatherList);
+  const userData = useSelector((state) => state.user);
+  const gatherList = useSelector((state) => state.gather.gatherList);
   const history = useNavigate();
   const [challengeList, setChallengeList] = useState([]);
-  const { allCompList } = useContext(AllCompete);
+
   useEffect(() => {
     setChallengeList([allCompList[0], allCompList[1], allCompList[2]]);
   }, []);
@@ -48,6 +47,7 @@ function Home() {
     goal: filtered["목표"] ? filtered["목표"] : [],
     safebox: filtered["비상금"] ? filtered["비상금"] : [],
   };
+
   const [gatherNumList, setGathersNumList] = useState({});
   useEffect(() => {
     setGathersNumList({
@@ -73,7 +73,7 @@ function Home() {
           )}
           {userData.id && (
             <>
-              <p>{userData.name}님이 지금까지 모은 금액은?</p>
+              <p>{userData.info.name}님이 지금까지 모은 금액은?</p>
               <div className="num">
                 <span className="roboto">
                   {Number(totalAmount).toLocaleString()}
@@ -107,6 +107,26 @@ function Home() {
           ))}
         {userData.id && (
           <>
+            {!gatherList.length &&
+              gatherCategorys.map((x) => (
+                <AboutGather key={x.id}>
+                  <div
+                    className={`icon ${
+                      x.name === "군적금"
+                        ? "armySaving"
+                        : x.name === "목표"
+                        ? "goal"
+                        : ""
+                    }`}
+                  >
+                    <StoreSvg category={x.name === "목표" ? "여행" : x.name} />
+                  </div>
+                  <div className="content">
+                    <div>{x.name}</div>
+                    <div className="adText">{x.adText}</div>
+                  </div>
+                </AboutGather>
+              ))}
             {0 !==
             (filteredList.army.length &&
               filteredList.goal.length &&
