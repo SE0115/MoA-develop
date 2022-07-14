@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import SubmitButton from "components/common/SubmitButton";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AccountGoal from "./AccountGoal";
-import { gatherFormat } from "components/common/dummyData";
-import { GatherList } from "store/GatherListContext";
-import { UserAccount } from "store/UserAccount";
-import { UserData } from "store/User";
+import { v1 as uuid } from "uuid";
+import { useDispatch } from "react-redux";
+import { addGather } from "reducer/gatherState";
 
 const Box = styled.div`
   font-family: "Pretendard-Regular";
@@ -49,6 +48,30 @@ const HeaderButton = styled.div`
   }
 `;
 
+const gatherFormat = (input, newName) => {
+  return {
+    id: uuid(),
+    savingMode: "군적금",
+    goalName: `${newName ? newName : ""}`,
+    category: "",
+    currentAmount: input.currentAmount,
+    goalAmount: input.goalAmount,
+    account: {
+      bankName: input.bankName,
+      productName: input.productName,
+      accountNumber: input.accountNumber,
+      accountCurrentAmount: 0,
+      bankImageUrl: input.bankImageUrl,
+    },
+    sDate: input.createdDate,
+    eDate: input.expirationDate,
+    depositMethod: "자유입금",
+    limitCycle: "",
+    amountPerCycle: 0,
+    transactions: [],
+  };
+};
+
 //입력값 체크를 위한 id 가져오기
 const idListGetter = (ins_list) => {
   let idList = [];
@@ -61,6 +84,7 @@ const idListGetter = (ins_list) => {
 };
 
 const SetGoal = ({ name, accounts }) => {
+  const dispatch = useDispatch();
   //react-hook-form
   const { register, handleSubmit, getValues, setValue } = useForm({
     mode: "onChange",
@@ -98,29 +122,22 @@ const SetGoal = ({ name, accounts }) => {
     val_list.length === id_list.length ? setValid(true) : setValid(false);
   };
 
-  const { userAccount } = useContext(UserAccount);
-  const { updateUserData } = useContext(UserData);
-  const { setGatherList } = useContext(GatherList);
-
   //onClick-submit
   const onclick = (data) => {
     //api 호출
     //home으로 navigatge
     //열쇠 적용
-    userAccount.install.map((x) =>
-      setGatherList((prev) => [
-        ...prev,
-        gatherFormat(
-          x,
-          data[Object.keys(data).find((y) => y === String(x.id))]
-        ),
-      ])
+    ins_list.map((x) =>
+      dispatch(
+        addGather(
+          gatherFormat(
+            x,
+            data[Object.keys(data).find((y) => y === String(x.id))]
+          )
+        )
+      )
     );
-    updateUserData({
-      userAccountList: userAccount.inout,
-      userSavingList: userAccount.install,
-      userInterlock: userAccount.interlock,
-    });
+
     navigate("/key", {
       state: {
         num: 3,
@@ -138,14 +155,7 @@ const SetGoal = ({ name, accounts }) => {
       <HeaderButton>
         <button
           onClick={() => {
-            userAccount.install.map((x) =>
-              setGatherList((prev) => [...prev, gatherFormat(x)])
-            );
-            updateUserData({
-              userAccountList: userAccount.inout,
-              userSavingList: userAccount.install,
-              userInterlock: userAccount.interlock,
-            });
+            ins_list.map((x) => dispatch(addGather(gatherFormat(x))));
             navigate("/key", {
               state: {
                 num: 3,
