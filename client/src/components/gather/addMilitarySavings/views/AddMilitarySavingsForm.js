@@ -2,9 +2,9 @@ import BackHeader from "components/common/BackHeader";
 import Container from "components/common/Container";
 import ScrollBox from "components/common/ScrollBox";
 import SubmitButton from "components/common/SubmitButton";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserAccount } from "store/UserAccount";
 import styled from "styled-components";
 import MilitaryFormBox from "../MilitaryFormBox";
 const controlNameList = ["자동이체", "자유입금"];
@@ -12,7 +12,9 @@ const controlNameList = ["자동이체", "자유입금"];
 function AddMilitarySavingsForm() {
   const { state: savingData } = useLocation();
   const history = useNavigate();
-  const { inout: userAccountList } = useContext(UserAccount).userAccount;
+  const userAccountList = useSelector(
+    (state) => state.user.info.accounts
+  ).filter((x) => x.accountType === "입출금");
   const FreeSavingFormTemp = {
     savingType: controlNameList[1],
     formDataAccount: userAccountList,

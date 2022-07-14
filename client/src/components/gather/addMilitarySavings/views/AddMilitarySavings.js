@@ -1,15 +1,16 @@
 import BackHeader from "components/common/BackHeader";
 import Container from "components/common/Container";
 import ScrollBox from "components/common/ScrollBox";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AvailableSavingList from "../AvailableSavingList";
 import ContentControlBtn from "components/common/ContentControlBtn";
 import { UserData } from "store/User";
+import { useSelector } from "react-redux";
 const controlNameList = ["최고금리순", "기본금리순"];
 function AddMilitarySavings() {
   const [listControl, setListControl] = useState(controlNameList[0]);
-  const { userData } = useContext(UserData);
+  const userData = useSelector((state) => state.user.info);
   // todo - api datas
   const avgApplyNum = 1234;
 
