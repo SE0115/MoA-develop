@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from "redux";
-import userReducer, { logIn, logOut } from "./userState";
+import userReducer from "./userState";
 import gatherReducer from "./gatherState";
 import competeReducer from "./competeState";
 
@@ -16,7 +16,6 @@ const persistedState = localStorage.getItem("reduxState")
 const store = createStore(reducer, persistedState);
 
 store.subscribe(() => {
-  console.log("state-subscribe", store.getState());
   localStorage.setItem("reduxState", JSON.stringify(store.getState()));
 });
 

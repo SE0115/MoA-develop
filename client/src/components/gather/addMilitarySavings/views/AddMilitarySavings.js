@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import AvailableSavingList from "../AvailableSavingList";
 import ContentControlBtn from "components/common/ContentControlBtn";
-import { UserData } from "store/User";
 import { useSelector } from "react-redux";
 const controlNameList = ["최고금리순", "기본금리순"];
 function AddMilitarySavings() {
